@@ -2,6 +2,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/repositores/statistics_repository.dart';
+import '../widgets/stats_card.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -91,17 +92,17 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          _card(
+                          StatsCard(
                             color: Colors.blue,
                             number: '5.000',
                             text: 'Confirmados',
                           ),
-                          _card(
+                          StatsCard(
                             color: Colors.red,
                             number: '1.000',
                             text: 'Mortes',
                           ),
-                          _card(
+                          StatsCard(
                             color: Colors.green,
                             number: '4.000',
                             text: 'Recuperados',
@@ -115,42 +116,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  Card _card({Color color, String number, String text, double padding}) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      color: color ?? Colors.white,
-      child: Padding(
-        padding: padding ??
-            EdgeInsets.symmetric(
-              horizontal: 15.0,
-              vertical: 10.0,
-            ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              number,
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              text,
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
