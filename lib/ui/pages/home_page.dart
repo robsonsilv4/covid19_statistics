@@ -1,6 +1,10 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../../data/repositores/country_repository.dart';
+import '../../stores/country_store.dart';
 import '../widgets/stats_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,6 +13,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final contryStore = CountryStore(
+    countryRepository: CountryRepository(
+      client: Dio(),
+    ),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    if (contryStore.countryStatistics == null) {
+      contryStore.fetchCountryStatistics();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +83,6 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              // Text('Última atualização: 20-03-2020'),
               Container(
                 height: MediaQuery.of(context).size.height - 300,
                 decoration: BoxDecoration(
@@ -82,30 +99,44 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5.0,
                         vertical: 15.0,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          StatsCard(
-                            color: Colors.blue,
-                            number: '5.000',
-                            text: 'Confirmados',
-                          ),
-                          StatsCard(
-                            color: Colors.red,
-                            number: '1.000',
-                            text: 'Mortes',
-                          ),
-                          StatsCard(
-                            color: Colors.green,
-                            number: '4.000',
-                            text: 'Recuperados',
-                          ),
-                        ],
-                      ),
+                      child: Observer(builder: (_) {
+                        if (contryStore.countryStatistics != null) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              StatsCard(
+                                color: Colors.blue,
+                                number: contryStore
+                                    .countryStatistics.data.confirmed
+                                    .toString(),
+                                text: 'Confirmados',
+                              ),
+                              StatsCard(
+                                color: Colors.red,
+                                number: contryStore
+                                    .countryStatistics.data.deaths
+                                    .toString(),
+                                text: 'Mortes',
+                              ),
+                              StatsCard(
+                                color: Colors.green,
+                                number: contryStore
+                                    .countryStatistics.data.recovered
+                                    .toString(),
+                                text: 'Recuperados',
+                              ),
+                            ],
+                          );
+                        }
+
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }),
                     ),
                   ],
                 ),

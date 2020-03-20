@@ -11,6 +11,9 @@ class CountryRepository {
   Future<CountryStatistics> fetchStatistics({String country = 'brazil'}) async {
     final response =
         await client.get(Api.baseUrl + Api.countryStatistics + country);
+
+    print(response.data);
+
     return CountryStatistics.fromJson(response.data);
   }
 }
