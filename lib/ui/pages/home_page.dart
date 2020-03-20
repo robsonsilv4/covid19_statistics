@@ -96,9 +96,16 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.all(10.0),
                 child: Column(
                   children: <Widget>[
+                    Text(
+                      'SITUAÇÃO NO CEARÁ - CE',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                        vertical: 15.0,
+                        vertical: 10.0,
                       ),
                       child: Observer(builder: (_) {
                         if (store.statistics != null) {
@@ -142,9 +149,106 @@ class _HomePageState extends State<HomePage> {
                         );
                       }),
                     ),
+                    Divider(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'SITUAÇÃO NO BRASIL',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 8.0),
+                          Text(
+                            '20 Março 2020',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            _infoItem(
+                              text: 'Confirmados',
+                              number: 780,
+                              color: Colors.indigo,
+                            ),
+                            _infoItem(
+                              text: 'Ativos',
+                              number: 780,
+                              color: Colors.orange,
+                            ),
+                            _infoItem(
+                              text: 'Recuperados',
+                              number: 2,
+                              color: Colors.green,
+                            ),
+                            _infoItem(
+                              text: 'Mortos',
+                              number: 11,
+                              color: Colors.red,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    FlatButton(
+                      onPressed: () {},
+                      child: Text('Compartilhar'),
+                      color: Colors.greenAccent,
+                    )
                   ],
                 ),
               )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _infoItem({String text, int number, Color color}) {
+    return Padding(
+      padding: EdgeInsets.all(4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 16.0,
+              color: Colors.grey.shade600,
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              Text(
+                number.toString(),
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+              SizedBox(width: 10.0),
+              Container(
+                height: 15.0,
+                width: 15.0,
+                decoration: BoxDecoration(
+                  color: color ?? Colors.white,
+                  borderRadius: BorderRadius.circular(3.0),
+                ),
+              ),
             ],
           ),
         ],
