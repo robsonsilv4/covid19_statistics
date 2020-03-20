@@ -1,7 +1,16 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+import '../../data/repositores/statistics_repository.dart';
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final repository = StatistcsRepository();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,17 +45,19 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: 10.0,
+                  width: 15.0,
                 ),
-                CountryCodePicker(
-                  onChanged: (county) => print(county.name),
-                  initialSelection: 'BR',
-                  showCountryOnly: true,
-                  showOnlyCountryWhenClosed: true,
-                  alignLeft: false,
-                  textStyle: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
+                SingleChildScrollView(
+                  child: CountryCodePicker(
+                    onChanged: (county) => print(county.name),
+                    initialSelection: 'BR',
+                    showCountryOnly: true,
+                    showOnlyCountryWhenClosed: true,
+                    alignLeft: false,
+                    textStyle: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ),
               ],
