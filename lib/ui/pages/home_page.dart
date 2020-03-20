@@ -1,7 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/repositores/statistics_repository.dart';
 import '../widgets/stats_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,8 +9,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final repository = StatistcsRepository();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
