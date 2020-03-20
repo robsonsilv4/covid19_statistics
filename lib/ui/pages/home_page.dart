@@ -3,8 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../../data/repositores/country_repository.dart';
-import '../../stores/country_store.dart';
+import '../../data/repositores/brazil_repository.dart';
+import '../../stores/brazil_store.dart';
 import '../widgets/stats_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,8 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final contryStore = CountryStore(
-    countryRepository: CountryRepository(
+  final store = BrazilStore(
+    brazilRepository: BrazilRepository(
       client: Dio(),
     ),
   );
@@ -22,8 +22,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    if (contryStore.countryStatistics == null) {
-      contryStore.fetchCountryStatistics();
+
+    if (store.statistics == null) {
+      store.fetchBrazilStatistics();
     }
   }
 
@@ -53,7 +54,7 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Selecione o país:',
+                  'Selecione o estado:',
                   style: TextStyle(
                     fontSize: 18.0,
                     color: Colors.black54,
@@ -92,49 +93,52 @@ class _HomePageState extends State<HomePage> {
                     topRight: Radius.circular(20.0),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                  vertical: 10.0,
-                ),
+                padding: EdgeInsets.all(10.0),
                 child: Column(
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 5.0,
                         vertical: 15.0,
                       ),
                       child: Observer(builder: (_) {
-                        if (contryStore.countryStatistics != null) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              StatsCard(
-                                color: Colors.blue,
-                                number: contryStore
-                                    .countryStatistics.data.confirmed
-                                    .toString(),
-                                text: 'Confirmados',
-                              ),
-                              StatsCard(
-                                color: Colors.red,
-                                number: contryStore
-                                    .countryStatistics.data.deaths
-                                    .toString(),
-                                text: 'Mortes',
-                              ),
-                              StatsCard(
-                                color: Colors.green,
-                                number: contryStore
-                                    .countryStatistics.data.recovered
-                                    .toString(),
-                                text: 'Recuperados',
-                              ),
-                            ],
+                        if (store.statistics != null) {
+                          final statistics = store.statistics.data;
+
+                          return Container(
+                            height: 80.0, // Mesmo tamanho
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: <Widget>[
+                                StatsCard(
+                                  color: Colors.indigo,
+                                  number: statistics[9].cases.toString(),
+                                  text: 'Confirmados',
+                                ),
+                                StatsCard(
+                                  color: Colors.red,
+                                  number: statistics[9].deaths.toString(),
+                                  text: 'Mortes',
+                                ),
+                                StatsCard(
+                                  color: Colors.orange,
+                                  number: statistics[9].suspects.toString(),
+                                  text: 'Suspeitos',
+                                ),
+                                StatsCard(
+                                  color: Colors.green,
+                                  number: statistics[9].refuses.toString(),
+                                  text: 'Descartados',
+                                ),
+                              ],
+                            ),
                           );
                         }
 
                         return Center(
-                          child: CircularProgressIndicator(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: CircularProgressIndicator(),
+                          ),
                         );
                       }),
                     ),

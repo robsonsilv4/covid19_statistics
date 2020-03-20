@@ -13,13 +13,10 @@ abstract class _CountryStoreBase with Store {
   _CountryStoreBase({this.countryRepository});
 
   @observable
-  CountryStatistics countryStatistics;
-
-  // CountryStatistics get countryStatistics => _countryStatistics;
+  CountryStatistics statistics;
 
   @action
   Future<void> fetchCountryStatistics() async {
-    countryStatistics =
-        await countryRepository.fetchStatistics(country: 'brazil');
+    statistics = await countryRepository.fetchStatistics(country: 'brazil');
   }
 }
