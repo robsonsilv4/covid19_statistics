@@ -5,61 +5,106 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      body: Stack(
+        alignment: AlignmentDirectional.topCenter,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 15.0,
-              bottom: 10.0,
-            ),
-            child: Text(
-              'COVID-19 Estatísticas',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
+          Container(
+            height: MediaQuery.of(context).size.height - 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('images/background.jpg'),
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          CountryCodePicker(
-            onChanged: (county) => print(county.name),
-            initialSelection: 'BR',
-            showCountryOnly: true,
-            showOnlyCountryWhenClosed: true,
-            alignLeft: false,
-            textStyle: TextStyle(
-              fontSize: 16.0,
-              // fontWeight: FontWeight.bold,
+          Container(
+            margin: EdgeInsets.all(40.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: new BorderRadius.circular(15.0),
             ),
-          ),
-          Text('Última atualização: 20-03-2020'),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                _card(
-                  color: Colors.blue,
-                  number: '5.000',
-                  text: 'Confirmados',
+                Text(
+                  'Selecione o país:',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.black54,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                _card(
-                  color: Colors.red,
-                  number: '1.000',
-                  text: 'Mortes',
+                SizedBox(
+                  width: 10.0,
                 ),
-                _card(
-                  color: Colors.green,
-                  number: '4.000',
-                  text: 'Recuperados',
+                CountryCodePicker(
+                  onChanged: (county) => print(county.name),
+                  initialSelection: 'BR',
+                  showCountryOnly: true,
+                  showOnlyCountryWhenClosed: true,
+                  alignLeft: false,
+                  textStyle: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ],
             ),
-          )
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              // Text('Última atualização: 20-03-2020'),
+              Container(
+                height: MediaQuery.of(context).size.height - 300,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0),
+                  ),
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 10.0,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 15.0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          _card(
+                            color: Colors.blue,
+                            number: '5.000',
+                            text: 'Confirmados',
+                          ),
+                          _card(
+                            color: Colors.red,
+                            number: '1.000',
+                            text: 'Mortes',
+                          ),
+                          _card(
+                            color: Colors.green,
+                            number: '4.000',
+                            text: 'Recuperados',
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ],
-      )),
+      ),
     );
   }
 
