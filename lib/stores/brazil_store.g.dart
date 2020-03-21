@@ -26,6 +26,23 @@ mixin _$BrazilStore on _BrazilStoreBase, Store {
     }, _$statisticsAtom, name: '${_$statisticsAtom.name}_set');
   }
 
+  final _$selectedStateAtom = Atom(name: '_BrazilStoreBase.selectedState');
+
+  @override
+  int get selectedState {
+    _$selectedStateAtom.context.enforceReadPolicy(_$selectedStateAtom);
+    _$selectedStateAtom.reportObserved();
+    return super.selectedState;
+  }
+
+  @override
+  set selectedState(int value) {
+    _$selectedStateAtom.context.conditionallyRunInAction(() {
+      super.selectedState = value;
+      _$selectedStateAtom.reportChanged();
+    }, _$selectedStateAtom, name: '${_$selectedStateAtom.name}_set');
+  }
+
   final _$fetchBrazilStatisticsAsyncAction =
       AsyncAction('fetchBrazilStatistics');
 
@@ -35,9 +52,18 @@ mixin _$BrazilStore on _BrazilStoreBase, Store {
         .run(() => super.fetchBrazilStatistics());
   }
 
+  final _$changeSelectedStateAsyncAction = AsyncAction('changeSelectedState');
+
+  @override
+  Future<void> changeSelectedState(String stateName) {
+    return _$changeSelectedStateAsyncAction
+        .run(() => super.changeSelectedState(stateName));
+  }
+
   @override
   String toString() {
-    final string = 'statistics: ${statistics.toString()}';
+    final string =
+        'statistics: ${statistics.toString()},selectedState: ${selectedState.toString()}';
     return '{$string}';
   }
 }

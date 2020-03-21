@@ -38,6 +38,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
+    store.fetchBrazilStatistics();
+    countryStore.fetchCountryStatistics();
+
     if (store.statistics.data.isEmpty) {
       store.fetchBrazilStatistics();
     }

@@ -31,7 +31,7 @@ class ShareButton extends StatelessWidget {
       ),
       color: Colors.greenAccent,
       padding: EdgeInsets.all(15.0),
-      onPressed: onPress ?? () => {},
+      onPressed: onPress ?? () {},
     );
   }
 }

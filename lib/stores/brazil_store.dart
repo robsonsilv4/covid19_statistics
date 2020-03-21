@@ -25,9 +25,9 @@ abstract class _BrazilStoreBase with Store {
 
   @action
   Future<void> changeSelectedState(String stateName) async {
-    if (statistics != null) {
+    if (statistics.data.isNotEmpty) {
       statistics.data.asMap().forEach((index, state) {
-        if (state.uf == stateName) {
+        if (state.state == stateName) {
           selectedState = index;
         }
       });
