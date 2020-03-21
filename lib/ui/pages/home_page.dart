@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    if (store.statistics == null) {
+    if (store.statistics.data.isEmpty) {
       store.fetchBrazilStatistics();
     }
 
@@ -50,6 +50,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             height: MediaQuery.of(context).size.height - 200,
             decoration: BoxDecoration(
+              color: Colors.cyan.shade200,
               image: DecorationImage(
                 image: AssetImage('images/background.jpg'),
                 fit: BoxFit.cover,
@@ -138,23 +139,25 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.all(10.0),
                 child: Column(
                   children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        'SITUAÇÃO NO ${store.statistics.data[store.selectedState].uf.toUpperCase()}',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black.withOpacity(0.8),
-                        ),
-                      ),
-                    ),
+                    Observer(builder: (_) {
+                      if (store.statistics.data.isNotEmpty) {
+                        final statistics = store.statistics.data;
+                        final index = store.selectedState;
+
+                        return _cardTitle(
+                          text:
+                              'SITUAÇÃO NO ${statistics[index].uf.toUpperCase()}',
+                        );
+                      }
+
+                      return _cardTitle(text: 'CARREGANDO INFORMAÇÕES...');
+                    }),
                     Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 10.0,
                       ),
                       child: Observer(builder: (_) {
-                        if (store.statistics != null) {
+                        if (store.statistics.data.isNotEmpty) {
                           final statistics = store.statistics.data;
 
                           return Container(
@@ -227,7 +230,7 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         child: Observer(builder: (_) {
-                          if (store.statistics != null) {
+                          if (countryStore.statistics != null) {
                             final countyStatistics =
                                 countryStore.statistics.data;
 
@@ -263,21 +266,29 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
                             'Compartilhar',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 20.0,
+                              color: Colors.white,
                             ),
                           ),
-                          Icon(Icons.share),
+                          Icon(
+                            Icons.share,
+                            color: Colors.white,
+                          ),
                         ],
                       ),
                       color: Colors.greenAccent,
                       padding: EdgeInsets.all(15.0),
-                      onPressed: () {},
+                      onPressed: () => {},
                     )
                   ],
                 ),
@@ -285,6 +296,20 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _cardTitle({@required String text}) {
+    return Padding(
+      padding: EdgeInsets.only(top: 8.0),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.black.withOpacity(0.8),
+        ),
       ),
     );
   }

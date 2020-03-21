@@ -13,7 +13,7 @@ abstract class _BrazilStoreBase with Store {
   _BrazilStoreBase({this.brazilRepository});
 
   @observable
-  BrazilStatistics statistics;
+  BrazilStatistics statistics = BrazilStatistics(data: List.of([]));
 
   @observable
   int selectedState = 9;
