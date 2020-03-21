@@ -134,13 +134,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
-  country_code_picker:
-    dependency: "direct main"
-    description:
-      name: country_code_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.3.6"
   crypto:
     dependency: transitive
     description:
@@ -176,6 +169,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.9"
+  find_dropdown:
+    dependency: "direct main"
+    description:
+      name: find_dropdown
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.8"
   fixnum:
     dependency: transitive
     description:
@@ -401,6 +401,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.23.1"
+  select_dialog:
+    dependency: transitive
+    description:
+      name: select_dialog
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7"
   shelf:
     dependency: transitive
     description:

@@ -1,10 +1,13 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dio/dio.dart';
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../data/repositores/brazil_repository.dart';
+import '../../data/repositores/country_repository.dart';
+import '../../shared/contants/covid19_constants.dart';
 import '../../stores/brazil_store.dart';
+import '../../stores/country_store.dart';
 import '../widgets/stats_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,12 +22,22 @@ class _HomePageState extends State<HomePage> {
     ),
   );
 
+  final countryStore = CountryStore(
+    countryRepository: CountryRepository(
+      client: Dio(),
+    ),
+  );
+
   @override
   void initState() {
     super.initState();
 
     if (store.statistics == null) {
       store.fetchBrazilStatistics();
+    }
+
+    if (countryStore.statistics == null) {
+      countryStore.fetchCountryStatistics();
     }
   }
 
@@ -45,19 +58,33 @@ class _HomePageState extends State<HomePage> {
           ),
           Container(
             margin: EdgeInsets.all(40.0),
+            padding: EdgeInsets.only(
+              top: 19.0,
+              left: 15.0,
+              right: 15.0,
+            ),
+            height: 105.0,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: new BorderRadius.circular(15.0),
+              borderRadius: BorderRadius.circular(15.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 4.0, // has the effect of softening the shadow
+                  spreadRadius: 2.0, // has the effect of extending the shadow
+                )
+              ],
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   'Selecione o estado:',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.black54,
+                    fontSize: 16.0,
+                    color: Colors.black.withOpacity(0.8),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -65,16 +92,22 @@ class _HomePageState extends State<HomePage> {
                   width: 15.0,
                 ),
                 SingleChildScrollView(
-                  child: CountryCodePicker(
-                    onChanged: (county) => print(county.name),
-                    initialSelection: 'BR',
-                    showCountryOnly: true,
-                    showOnlyCountryWhenClosed: true,
-                    alignLeft: false,
-                    textStyle: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.normal,
-                    ),
+                  child: FindDropdown(
+                    items: Covid19.brazilianStates,
+                    onChanged: (String item) async {
+                      store.changeSelectedState(item);
+                      setState(
+                        () {},
+                      );
+                    },
+                    selectedItem: 'Ceará',
+                    showSearchBox: true,
+                    validate: (String item) {
+                      if (item == null) {
+                        return 'É preciso selecionar um estado.';
+                      }
+                      return null;
+                    },
                   ),
                 ),
               ],
@@ -92,15 +125,28 @@ class _HomePageState extends State<HomePage> {
                     topLeft: Radius.circular(20.0),
                     topRight: Radius.circular(20.0),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius:
+                            4.0, // has the effect of softening the shadow
+                        spreadRadius:
+                            1.0 // has the effect of extending the shadow
+                        )
+                  ],
                 ),
                 padding: EdgeInsets.all(10.0),
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      'SITUAÇÃO NO CEARÁ - CE',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        'SITUAÇÃO NO ${store.statistics.data[store.selectedState].uf.toUpperCase()}',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black.withOpacity(0.8),
+                        ),
                       ),
                     ),
                     Padding(
@@ -118,22 +164,30 @@ class _HomePageState extends State<HomePage> {
                               children: <Widget>[
                                 StatsCard(
                                   color: Colors.indigo,
-                                  number: statistics[9].cases.toString(),
+                                  number: statistics[store.selectedState]
+                                      .cases
+                                      .toString(),
                                   text: 'Confirmados',
                                 ),
                                 StatsCard(
                                   color: Colors.red,
-                                  number: statistics[9].deaths.toString(),
+                                  number: statistics[store.selectedState]
+                                      .deaths
+                                      .toString(),
                                   text: 'Mortes',
                                 ),
                                 StatsCard(
                                   color: Colors.orange,
-                                  number: statistics[9].suspects.toString(),
+                                  number: statistics[store.selectedState]
+                                      .suspects
+                                      .toString(),
                                   text: 'Suspeitos',
                                 ),
                                 StatsCard(
                                   color: Colors.green,
-                                  number: statistics[9].refuses.toString(),
+                                  number: statistics[store.selectedState]
+                                      .refuses
+                                      .toString(),
                                   text: 'Descartados',
                                 ),
                               ],
@@ -141,17 +195,12 @@ class _HomePageState extends State<HomePage> {
                           );
                         }
 
-                        return Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
+                        return _loading();
                       }),
                     ),
                     Divider(),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -161,6 +210,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,
+                              color: Colors.black.withOpacity(0.8),
                             ),
                           ),
                           SizedBox(width: 8.0),
@@ -176,37 +226,58 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            _infoItem(
-                              text: 'Confirmados',
-                              number: 780,
-                              color: Colors.indigo,
-                            ),
-                            _infoItem(
-                              text: 'Ativos',
-                              number: 780,
-                              color: Colors.orange,
-                            ),
-                            _infoItem(
-                              text: 'Recuperados',
-                              number: 2,
-                              color: Colors.green,
-                            ),
-                            _infoItem(
-                              text: 'Mortos',
-                              number: 11,
-                              color: Colors.red,
-                            ),
-                          ],
-                        ),
+                        child: Observer(builder: (_) {
+                          if (store.statistics != null) {
+                            final countyStatistics =
+                                countryStore.statistics.data;
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                _infoItem(
+                                  text: 'Confirmados',
+                                  number: countyStatistics.cases,
+                                  color: Colors.indigo,
+                                ),
+                                _infoItem(
+                                  text: 'Ativos',
+                                  number: countyStatistics.confirmed,
+                                  color: Colors.orange,
+                                ),
+                                _infoItem(
+                                  text: 'Recuperados',
+                                  number: countyStatistics.recovered,
+                                  color: Colors.green,
+                                ),
+                                _infoItem(
+                                  text: 'Mortos',
+                                  number: countyStatistics.deaths,
+                                  color: Colors.red,
+                                ),
+                              ],
+                            );
+                          }
+
+                          return _loading();
+                        }),
                       ),
                     ),
                     FlatButton(
-                      onPressed: () {},
-                      child: Text('Compartilhar'),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Compartilhar',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                            ),
+                          ),
+                          Icon(Icons.share),
+                        ],
+                      ),
                       color: Colors.greenAccent,
+                      padding: EdgeInsets.all(15.0),
+                      onPressed: () {},
                     )
                   ],
                 ),
@@ -214,6 +285,15 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _loading() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: CircularProgressIndicator(),
       ),
     );
   }

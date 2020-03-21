@@ -18,7 +18,7 @@ dependencies:
   dio: ^3.0.9
   mobx: ^1.0.2+2
   flutter_mobx: ^1.0.1
-  country_code_picker: ^1.3.6
+  find_dropdown: ^0.1.8
 
 dev_dependencies:
   flutter_test:
