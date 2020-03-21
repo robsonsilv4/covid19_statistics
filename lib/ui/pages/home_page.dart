@@ -9,6 +9,9 @@ import '../../data/repositores/country_repository.dart';
 import '../../shared/contants/covid19_constants.dart';
 import '../../stores/brazil_store.dart';
 import '../../stores/country_store.dart';
+import '../widgets/info_item.dart';
+import '../widgets/loading.dart';
+import '../widgets/share_button.dart';
 import '../widgets/stats_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +20,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final today = DateFormat('dd-MM-yyyy').format(DateTime.now());
+
   final store = BrazilStore(
     brazilRepository: BrazilRepository(
       client: Dio(),
@@ -54,7 +59,7 @@ class _HomePageState extends State<HomePage> {
             decoration: BoxDecoration(
               color: Color(0xffa6d3d8),
               image: DecorationImage(
-                image: AssetImage('images/background.jpg'),
+                image: AssetImage(Covid19.background),
                 fit: BoxFit.cover,
               ),
             ),
@@ -119,182 +124,149 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                  height: MediaQuery.of(context).size.height / 1.6,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20.0),
-                      topRight: Radius.circular(20.0),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius:
-                              4.0, // has the effect of softening the shadow
-                          spreadRadius:
-                              1.0 // has the effect of extending the shadow
-                          )
-                    ],
+                height: MediaQuery.of(context).size.height / 1.6,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0),
                   ),
-                  padding: EdgeInsets.all(10.0),
-                  child: Column(
-                    children: <Widget>[
-                      Observer(builder: (_) {
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius:
+                            4.0, // has the effect of softening the shadow
+                        spreadRadius:
+                            1.0 // has the effect of extending the shadow
+                        )
+                  ],
+                ),
+                padding: EdgeInsets.all(10.0),
+                child: Column(
+                  children: <Widget>[
+                    Observer(builder: (_) {
+                      if (store.statistics.data.isNotEmpty) {
+                        final statistics = store.statistics.data;
+                        final index = store.selectedState;
+
+                        return _cardTitle(
+                          text:
+                              'SITUAÇÃO NO ${statistics[index].uf.toUpperCase()}',
+                        );
+                      }
+
+                      return _cardTitle(text: 'CARREGANDO INFORMAÇÕES...');
+                    }),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10.0,
+                      ),
+                      child: Observer(builder: (_) {
                         if (store.statistics.data.isNotEmpty) {
                           final statistics = store.statistics.data;
-                          final index = store.selectedState;
 
-                          return _cardTitle(
-                            text:
-                                'SITUAÇÃO NO ${statistics[index].uf.toUpperCase()}',
+                          return Container(
+                            height: 80.0, // Mesmo tamanho
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: <Widget>[
+                                StatsCard(
+                                  color: Colors.indigo,
+                                  number: statistics[store.selectedState]
+                                      .cases
+                                      .toString(),
+                                  text: 'Confirmados',
+                                ),
+                                StatsCard(
+                                  color: Colors.red,
+                                  number: statistics[store.selectedState]
+                                      .deaths
+                                      .toString(),
+                                  text: 'Mortes',
+                                ),
+                                StatsCard(
+                                  color: Colors.orange,
+                                  number: statistics[store.selectedState]
+                                      .suspects
+                                      .toString(),
+                                  text: 'Suspeitos',
+                                ),
+                                StatsCard(
+                                  color: Colors.green,
+                                  number: statistics[store.selectedState]
+                                      .refuses
+                                      .toString(),
+                                  text: 'Descartados',
+                                ),
+                              ],
+                            ),
                           );
                         }
 
-                        return _cardTitle(text: 'CARREGANDO INFORMAÇÕES...');
+                        return Loading();
                       }),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10.0,
-                        ),
+                    ),
+                    Divider(),
+                    Padding(
+                      padding: EdgeInsets.only(top: 5.0, bottom: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          _cardTitle(text: 'SITUAÇÃO NO BRASIL'),
+                          SizedBox(width: 8.0),
+                          Text(
+                            today.toString(),
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
                         child: Observer(builder: (_) {
-                          if (store.statistics.data.isNotEmpty) {
-                            final statistics = store.statistics.data;
+                          if (countryStore.statistics != null) {
+                            final countyStatistics =
+                                countryStore.statistics.data;
 
-                            return Container(
-                              height: 80.0, // Mesmo tamanho
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: <Widget>[
-                                  StatsCard(
-                                    color: Colors.indigo,
-                                    number: statistics[store.selectedState]
-                                        .cases
-                                        .toString(),
-                                    text: 'Confirmados',
-                                  ),
-                                  StatsCard(
-                                    color: Colors.red,
-                                    number: statistics[store.selectedState]
-                                        .deaths
-                                        .toString(),
-                                    text: 'Mortes',
-                                  ),
-                                  StatsCard(
-                                    color: Colors.orange,
-                                    number: statistics[store.selectedState]
-                                        .suspects
-                                        .toString(),
-                                    text: 'Suspeitos',
-                                  ),
-                                  StatsCard(
-                                    color: Colors.green,
-                                    number: statistics[store.selectedState]
-                                        .refuses
-                                        .toString(),
-                                    text: 'Descartados',
-                                  ),
-                                ],
-                              ),
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                InfoItem(
+                                  text: 'Confirmados',
+                                  number: countyStatistics.cases,
+                                  color: Colors.indigo,
+                                ),
+                                InfoItem(
+                                  text: 'Ativos',
+                                  number: countyStatistics.confirmed,
+                                  color: Colors.orange,
+                                ),
+                                InfoItem(
+                                  text: 'Recuperados',
+                                  number: countyStatistics.recovered,
+                                  color: Colors.green,
+                                ),
+                                InfoItem(
+                                  text: 'Mortos',
+                                  number: countyStatistics.deaths,
+                                  color: Colors.red,
+                                ),
+                              ],
                             );
                           }
 
-                          return _loading();
+                          return Loading();
                         }),
                       ),
-                      Divider(),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5.0, bottom: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'SITUAÇÃO NO BRASIL',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black.withOpacity(0.8),
-                              ),
-                            ),
-                            SizedBox(width: 8.0),
-                            Text(
-                              DateFormat('dd-MM-yyyy')
-                                  .format(DateTime.now())
-                                  .toString(),
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Observer(builder: (_) {
-                            if (countryStore.statistics != null) {
-                              final countyStatistics =
-                                  countryStore.statistics.data;
-
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  _infoItem(
-                                    text: 'Confirmados',
-                                    number: countyStatistics.cases,
-                                    color: Colors.indigo,
-                                  ),
-                                  _infoItem(
-                                    text: 'Ativos',
-                                    number: countyStatistics.confirmed,
-                                    color: Colors.orange,
-                                  ),
-                                  _infoItem(
-                                    text: 'Recuperados',
-                                    number: countyStatistics.recovered,
-                                    color: Colors.green,
-                                  ),
-                                  _infoItem(
-                                    text: 'Mortos',
-                                    number: countyStatistics.deaths,
-                                    color: Colors.red,
-                                  ),
-                                ],
-                              );
-                            }
-
-                            return _loading();
-                          }),
-                        ),
-                      ),
-                      RaisedButton(
-                        elevation: 0.5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'Compartilhar',
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Icon(
-                              Icons.share,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                        color: Colors.greenAccent,
-                        padding: EdgeInsets.all(15.0),
-                        onPressed: () => {},
-                      )
-                    ],
-                  ))
+                    ),
+                    ShareButton(),
+                  ],
+                ),
+              )
             ],
           ),
         ],
@@ -312,53 +284,6 @@ class _HomePageState extends State<HomePage> {
           fontWeight: FontWeight.bold,
           color: Colors.black.withOpacity(0.8),
         ),
-      ),
-    );
-  }
-
-  Widget _loading() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
-  Widget _infoItem({String text, int number, Color color}) {
-    return Padding(
-      padding: EdgeInsets.all(4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 16.0,
-              color: Colors.grey.shade600,
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Text(
-                number.toString(),
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-              SizedBox(width: 10.0),
-              Container(
-                height: 15.0,
-                width: 15.0,
-                decoration: BoxDecoration(
-                  color: color ?? Colors.white,
-                  borderRadius: BorderRadius.circular(3.0),
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

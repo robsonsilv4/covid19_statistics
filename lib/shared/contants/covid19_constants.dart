@@ -1,4 +1,6 @@
 class Covid19 {
+  static const String background = 'images/background.jpg';
+
   static const List<String> brazilianStates = [
     'Rondônia',
     'Acre',
