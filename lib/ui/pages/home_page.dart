@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 
 import '../../data/repositores/brazil_repository.dart';
 import '../../data/repositores/country_repository.dart';
@@ -118,7 +119,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                  height: MediaQuery.of(context).size.height / 1.5,
+                  height: MediaQuery.of(context).size.height / 1.6,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -217,7 +218,9 @@ class _HomePageState extends State<HomePage> {
                             ),
                             SizedBox(width: 8.0),
                             Text(
-                              '20 Março 2020',
+                              DateFormat('dd-MM-yyyy')
+                                  .format(DateTime.now())
+                                  .toString(),
                               style: TextStyle(
                                 color: Colors.grey,
                               ),
@@ -264,7 +267,8 @@ class _HomePageState extends State<HomePage> {
                           }),
                         ),
                       ),
-                      FlatButton(
+                      RaisedButton(
+                        elevation: 0.5,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
