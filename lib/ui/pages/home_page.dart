@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             height: MediaQuery.of(context).size.height - 200,
             decoration: BoxDecoration(
-              color: Colors.cyan.shade200,
+              color: Color(0xffa6d3d8),
               image: DecorationImage(
                 image: AssetImage('images/background.jpg'),
                 fit: BoxFit.cover,
