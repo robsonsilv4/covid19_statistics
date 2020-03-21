@@ -1,4 +1,4 @@
-package tech.robsonsilva.covid19_statics
+package tech.robsonsilva.covid19_statistics
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

@@ -1,5 +1,5 @@
-name: covid19_statics
-description: Estatísticas do COVID-19 ao redor do mundo.
+name: covid19_statistics
+description: Estatísticas do COVID-19 no Brasil.
 version: 1.0.0+1
 
 environment:

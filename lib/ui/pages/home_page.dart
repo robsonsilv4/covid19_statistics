@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> {
 
                         return _cardTitle(
                           text:
-                              'SITUAÇÃO NO ${statistics[index].uf.toUpperCase()}',
+                              'SITUAÇÃO NO ${statistics[index].state.toUpperCase()}',
                         );
                       }
 
