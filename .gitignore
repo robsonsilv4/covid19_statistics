@@ -38,3 +38,6 @@ lib/generated_plugin_registrant.dart
 
 # Secrets
 lib/secrets/
+
+# Release
+key.properties
