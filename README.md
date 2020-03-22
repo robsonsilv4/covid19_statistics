@@ -55,6 +55,19 @@ covid19_statics/build/app/outputs/apk/release/...
 
 ---
 
+### Tecnologias e pacotes utilizados:
+
+- [Dart](https://dart.dev/) como linguagem principal.
+- [Flutter](https://flutter.dev/) como framework cross plataform.
+- [Dio](https://github.com/flutterchina/dio) para requisição web.
+- [MobX](https://github.com/mobxjs/mobx.dart) para gerenciamento de estado.
+- [Flutter MobX](https://pub.dev/packages/flutter_mobx) para utilização do Observer junto aos widgets.
+- [MobX Code Gen](https://pub.dev/packages/mobx_codegen) para geração dos stores.g.
+- [Build Runner](https://github.com/dart-lang/build) para geração de código.
+- [Find Dropdown](https://github.com/davidsdearaujo/find_dropdown) para seleção dos estados.
+
+---
+
 ## Como contribuir
 
 Você pode contribuir para o projeto de qualquer maneira. Seja instalado o aplicativo e dando feedback, abrindo issues, melhorando ou trauduzindo a documentação, melhorando ou adicionando features, compartilhando ou falando sobre o projeto, doando ou de qualquer outra forma que conseguir. O importante é que essas informações cheguem a todos e que possamos passar por esse momento da melhor maneira possível.
