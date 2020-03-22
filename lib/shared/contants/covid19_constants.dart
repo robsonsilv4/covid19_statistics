@@ -27,5 +27,6 @@ class Covid19 {
     'Mato Grosso',
     'Goiás',
     'Distrito Federal',
+    'Paraíba',
   ];
 }
