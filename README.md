@@ -2,10 +2,10 @@
 
 Esse aplicativo tem o intuito de ajudar todos a acompanhar as estatísticas do COVID-19 nos estados brasileiros e no Brasil como todo.
 
-|                             |                             |                             |                             |
-| :-------------------------- | :-------------------------: | :-------------------------: | :-------------------------: |
-| ![01](./screenshots/01.png) | ![02](./screenshots/02.png) | ![03](./screenshots/03.png) | ![04](./screenshots/04.png) |
-|                             |                             |                             |                             |
+|                             |                             |                                 |                             |
+| :-------------------------- | :-------------------------: | :-----------------------------: | :-------------------------: |
+| ![01](./screenshots/01.png) | ![02](./screenshots/02.png) | ![03](./screenshots/03_map.png) | ![04](./screenshots/04.png) |
+|                             |                             |                                 |                             |
 
 ## Nota!
 
