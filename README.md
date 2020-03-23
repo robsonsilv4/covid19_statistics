@@ -1,6 +1,6 @@
-# COVID-19 Estatísticas
+# COVID-19 Estatísticas no Brasil
 
-Esse aplictivo tem o intuito de ajudar todos a acompanhar as estastítiscas do COVID-19 nos estados brasileiros e no Brasil como todo.
+Esse aplicativo tem o intuito de ajudar todos a acompanhar as estatísticas do COVID-19 nos estados brasileiros e no Brasil como todo.
 
 |                             |                             |                             |
 | :-------------------------- | :-------------------------: | :-------------------------: |
@@ -9,24 +9,24 @@ Esse aplictivo tem o intuito de ajudar todos a acompanhar as estastítiscas do C
 
 ## Nota!
 
-Eu comecei a desenvolver esta aplicação de última hora enquanto me sentia bastante mal com supeitas de ter contraído o vírus e acabei adiadando a ida ao hospital para publicar algo funcional e ajudar a todos. Mas no momento atual eu já fui ao hospital, tomei a devida medição e até agora fui constatado como descartado.
+Eu comecei a desenvolver esta aplicação de última hora enquanto me sentia bastante mal com suspeita de ter contraído o vírus e acabei adiando a ida ao hospital para publicar algo funcional e ajudar a todos. Mas no momento atual eu já fui ao hospital, tomei a devida medição e até agora foi constatado como descartado.
 
 ## Download
 
-Você pode baixar os instaladores atráves das [releases](https://github.com/robsonsilv4/covid19_statistics/releases). Não se preocupe, pode instalar e compartilhar sem problemas, não há nada de malicioso e você pode conferir no código. Lançarei na PlayStore assim que possível, no momento as informações são mais importantes.
+Você pode baixar os instaladores atráves das [releases](https://github.com/robsonsilv4/covid19_statistics/releases). Não se preocupe, pode instalar e compartilhar sem problemas, não há nada de malicioso e você pode conferir no código. Lançarei na Play Store assim que possível, no momento as informações são mais importantes.
 
 ## Como rodar o projeto
 
 Primeiro você precisa clonar o repositório:
 
 ```sh
-git clone https://github.com/robsonsilv4/queroworkar.git covid19_statics
+git clone https://github.com/robsonsilv4/covid19_statistics.git covid19_statistics
 ```
 
 Agora basta entrar na pasta do projeto e baixar os pacotes:
 
 ```sh
-cd covid19_statics
+cd covid19_statistics
 
 flutter packages get
 ```
@@ -50,7 +50,7 @@ flutter install # para instalar no dispositivo ou emulador
 Os arquivos gerados ficam em:
 
 ```sh
-covid19_statics/build/app/outputs/apk/release/...
+covid19_statistics/build/app/outputs/apk/release/...
 ```
 
 ---
@@ -70,13 +70,45 @@ covid19_statics/build/app/outputs/apk/release/...
 
 ## Como contribuir
 
-Você pode contribuir para o projeto de qualquer maneira. Seja instalado o aplicativo e dando feedback, abrindo issues, melhorando ou trauduzindo a documentação, melhorando ou adicionando features, compartilhando ou falando sobre o projeto, doando ou de qualquer outra forma que conseguir. O importante é que essas informações cheguem a todos e que possamos passar por esse momento da melhor maneira possível.
+Você pode contribuir para o projeto de qualquer maneira. Seja instalado o aplicativo e dando feedback, abrindo issues, melhorando ou traduzindo a documentação, melhorando ou adicionando features, compartilhando ou falando sobre o projeto, doando ou de qualquer outra forma que conseguir. O importante é que essas informações cheguem a todos e que possamos passar por esse momento da melhor maneira possível.
 
 ---
 
 ## Contribuidores
 
-Desenvolvido incialmente por [Robson Silva](https://github.com/robsonsilv4) com a ajuda dos seguintes [contribuidores](./CONTRIBUTORS.md).
+<table>
+  <tr>
+    <td align="center">
+        <a href="https://github.com/tlworkssoftware">
+            <img src="https://avatars2.githubusercontent.com/u/43814721?s=400&u=50bcc428fea427bb7b95cd29b65cb052af0efa13&v=4" width="100px;" alt=""/>
+            <br />
+            <sub><b>tlworkssoftware</b></sub>
+            <br />
+            </a><a title="Code">💻</a>
+            </a><a title="Design">🎨</a>
+        </a>
+    </td>
+  <tr>
+</table>
+
+---
+
+## Autor
+
+<table>
+  <tr>
+    <td align="center">
+        <a href="https://github.com/robsonsilv4">
+            <img src="https://avatars0.githubusercontent.com/u/17673296?s=460&u=7ca64208ca0fd4658b62aa1808daeec688640f94&v=4" width="100px;" alt=""/>
+            <br />
+            <sub><b>Robson Silva</b></sub>
+            <br />
+            </a><a title="Code">💻</a>
+            </a><a title="Design">🎨</a>
+        </a>
+    </td>
+  <tr>
+</table>
 
 ---
 
