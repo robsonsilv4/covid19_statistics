@@ -19,16 +19,17 @@ dependencies:
   mobx: ^1.0.2+2
   flutter_mobx: ^1.0.1
   find_dropdown: ^0.1.8
-  intl: ^0.16.0
+  intl: ^0.16.1
   flutter_launcher_icons: ^0.7.4
-  google_maps_flutter: ^0.5.25
+  google_maps_flutter:
   flutter_map: ^0.8.2
   map_markers: ^0.1.0
   flutter_map_marker_cluster: 0.2.7
   syncfusion_flutter_charts: 18.1.36
+  # flutter_plugin_android_lifecycle: ^1.0.6
 
 dependency_overrides:
-  intl: ^0.16.0
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:
