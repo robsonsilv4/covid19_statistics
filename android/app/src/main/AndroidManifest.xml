@@ -10,6 +10,8 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="COVID-19 Estatísticas"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyB7Dn1lASqq0zlkONCpZ1acQO1y-wKxb10"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

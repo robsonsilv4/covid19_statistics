@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 import '../data/models/brazil_statistics.dart';
@@ -16,11 +17,26 @@ abstract class _BrazilStoreBase with Store {
   BrazilStatistics statistics = BrazilStatistics(data: List.of([]));
 
   @observable
-  int selectedState = 9;
+  List<BrazilStatistics> statisticsByPeriod = new ObservableList<BrazilStatistics>.of([]);
+
+  @observable
+  int selectedState = 12;
 
   @action
   Future<void> fetchBrazilStatistics() async {
     statistics = await brazilRepository.fetchStatistics();
+  }
+
+  @action
+  Future<void> fetchBrazilStatisticsByDate() async {
+    for (var i = 1; i < 15; i++) {
+      var now = new DateTime.now();
+      var date = new DateTime(now.year, now.month, now.day - i);
+      var formatter = new DateFormat('yyyyMMdd');
+      String formatted = formatter.format(date);
+      var stats = await brazilRepository.fetchStatisticsForPeriod(formatted);
+      statisticsByPeriod.add(stats);
+    }
   }
 
   @action

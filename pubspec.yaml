@@ -21,6 +21,11 @@ dependencies:
   find_dropdown: ^0.1.8
   intl: ^0.16.0
   flutter_launcher_icons: ^0.7.4
+  google_maps_flutter: ^0.5.25
+  flutter_map: ^0.8.2
+  map_markers: ^0.1.0
+  flutter_map_marker_cluster: 0.2.7
+  syncfusion_flutter_charts: 18.1.36
 
 dependency_overrides:
   intl: ^0.16.0
