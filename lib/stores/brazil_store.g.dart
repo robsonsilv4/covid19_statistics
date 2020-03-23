@@ -26,6 +26,25 @@ mixin _$BrazilStore on _BrazilStoreBase, Store {
     }, _$statisticsAtom, name: '${_$statisticsAtom.name}_set');
   }
 
+  final _$statisticsByPeriodAtom =
+      Atom(name: '_BrazilStoreBase.statisticsByPeriod');
+
+  @override
+  List<BrazilStatistics> get statisticsByPeriod {
+    _$statisticsByPeriodAtom.context
+        .enforceReadPolicy(_$statisticsByPeriodAtom);
+    _$statisticsByPeriodAtom.reportObserved();
+    return super.statisticsByPeriod;
+  }
+
+  @override
+  set statisticsByPeriod(List<BrazilStatistics> value) {
+    _$statisticsByPeriodAtom.context.conditionallyRunInAction(() {
+      super.statisticsByPeriod = value;
+      _$statisticsByPeriodAtom.reportChanged();
+    }, _$statisticsByPeriodAtom, name: '${_$statisticsByPeriodAtom.name}_set');
+  }
+
   final _$selectedStateAtom = Atom(name: '_BrazilStoreBase.selectedState');
 
   @override
@@ -52,6 +71,15 @@ mixin _$BrazilStore on _BrazilStoreBase, Store {
         .run(() => super.fetchBrazilStatistics());
   }
 
+  final _$fetchBrazilStatisticsByDateAsyncAction =
+      AsyncAction('fetchBrazilStatisticsByDate');
+
+  @override
+  Future<void> fetchBrazilStatisticsByDate() {
+    return _$fetchBrazilStatisticsByDateAsyncAction
+        .run(() => super.fetchBrazilStatisticsByDate());
+  }
+
   final _$changeSelectedStateAsyncAction = AsyncAction('changeSelectedState');
 
   @override
@@ -63,7 +91,7 @@ mixin _$BrazilStore on _BrazilStoreBase, Store {
   @override
   String toString() {
     final string =
-        'statistics: ${statistics.toString()},selectedState: ${selectedState.toString()}';
+        'statistics: ${statistics.toString()},statisticsByPeriod: ${statisticsByPeriod.toString()},selectedState: ${selectedState.toString()}';
     return '{$string}';
   }
 }

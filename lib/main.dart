@@ -1,8 +1,12 @@
+import 'package:covid19_statistics/shared/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/pages/home_page.dart';
 
-void main() => runApp(App());
+void main() {
+  Utils.setUp();
+  runApp(App());
+}
 
 class App extends StatelessWidget {
   // This widget is the root of your application.
